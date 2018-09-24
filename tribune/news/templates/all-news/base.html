@@ -3,14 +3,27 @@
 <head>
   <meta charset="utf-8">
 
+    {% load bootstrap3 %}
   {% if title %}
   <title>Moringa Tribune - {{title}}</title>
   {% else %}
     <title> Moringa Tribune </title>
   {% endif %}
 
+  {% block styles %}
+  {% bootstrap_css %}
+  {% endblock %}
+
 </head>
 <body>
-    {% block content %} <h1>News for {{date|date:"l d-F Y"}}</h1> {%endblock%}
+    {%extends 'all-news/base.html'%}
+
+    {% block content %}
+    {{block.super}}
+    {% endblock %}
+
+    {% block content %} 
+    <h1>News for {{date|date:"l d-F Y"}}</h1> 
+    {%endblock%}
 </body>
 </html>
