@@ -21,6 +21,10 @@ class Editor(models.Model):
 class tags(models.Model):
     name = models.CharField(max_length = 30)
 
+    def save_tags(self):
+        self.save()
+
+
     def __str__(self):
         return self.name          
 
