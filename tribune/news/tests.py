@@ -1,60 +1,37 @@
 from django.test import TestCase
 from . models import Editor,Article,tags
+import datetime as dt
 
 # Create your tests here.
 
-class EditorTestCase(TestCase):
+class ArticleTestClass(TestCase):
 
-    # Set up method
     def setUp(self):
-        self.gabriel = Editor(first_name = 'gabriel', last_name = 'nwachukwu', email = 'gabrielcoder247@gmail.com')
-        self.gabriel.save_editor()
+        # Creating a new editor and saving it
+        self.james= Editor(first_name = 'James', last_name ='Muriuki', email ='james@moringaschool.com')
+        self.james.save_editor()
 
-        # Creating a new editor and saving it 
-        self.new_tag = tags(ame = 'testing')
+        # Creating a new tag and saving it
+        self.new_tag = tags(name = 'testing')
         self.new_tag.save()
 
-        # Creating a new artcle and saving it
-        self.new_article= Article(title = 'Test Article', post = 'This is a random test post', editor = self.gabriel)
+        self.new_article= Article(title = 'Test Article',post = 'This is a random test Post',editor = self.james)
         self.new_article.save()
 
         self.new_article.tags.add(self.new_tag)
 
-
-    # teardown function to clear the each test after it runs    
     def tearDown(self):
         Editor.objects.all().delete()
         tags.objects.all().delete()
-        Article.objects.all().delete() 
+        Article.objects.all().delete()
 
+    def test_get_news_today(self):
+        today_news = Article.todays_news() 
+        self.assertTrue(len(today_news)>0)
 
-#     # Test instance    
-#     def test_instance(self):
-#         self.assertTrue(isinstance(self.gabriel,Editor))
-
-#     def test_save_method(self):
-#         self.gabriel.save_editor()
-#         editors = Editor.objects.all()
-#         self.assertTrue(len(editors) > 0)
-
-
-
-# class ArticleTestCase(TestCase):
-
-#     # Set up method
-#     def setUp(self):
-#         self.new_article = Article( 
-#         title = 'arm robber caught in abuja',
-#         editor_id = 2,
-#         post = 'five armed men were caught last night with sophisticated weapons',
-#         pub_date = 2018-10-25)
-
-#     # Test instance    
-#     def test_instance(self):
-#         self.assertTrue(isinstance(self.new_article,Article))
-
-#     def test_save_method(self):
-#         self.new_article.save_article()
-#         articles = Article.objects.all()
-#         self.assertTrue(len(articles) > 0)        
+    def test_get_news_by_date(self):
+        test_date = '2017-03-17'
+        date = dt.date.strptime(test_date, '%Y-%m-%d').date()
+        news_by_date = Article.days_news(date)
+        self.assertTrue(len(news_by_date)==0)    
 
