@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, Http404
-from models import Article
+from .models import Article
 import datetime as dt
 
 
@@ -33,4 +33,13 @@ def news_today(request):
     date = dt.date.today()
     news = Article.todays_news()
 
-    return render(request,'all-news/today-news.html', {"date":date,"news":news})    
+    return render(request,'all-news/today-news.html', {"date":date,"news":news}) 
+
+
+def article(request,article_id):
+    try:
+        article = Article.objects.get(id= article_id)
+    except DoesNotExist:
+        raise Http404()
+
+    return render(request, "all-news/article.html",{ "article":article})        
