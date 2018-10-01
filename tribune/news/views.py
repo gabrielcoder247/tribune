@@ -44,8 +44,8 @@ def article(request,article_id):
 
     return render(request, "all-news/article.html",{ "article":article}) 
 
-def search_results(request):
-
+def search_results(request): 
+      
     if 'article' in request.GET and request.GET["article"]:
         search_term =request.GET.get("article")
         search_articles = Article.search_by_title(search_term)
