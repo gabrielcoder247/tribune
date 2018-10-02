@@ -1,14 +1,12 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, Http404,HttpResponseRedirect
 from .forms import NewsLetterForm
+from django.contrib.auth.decorators import login_required
 from .email import send_welcome_email
 from .models import Article
 import datetime as dt
 
 
-# Create your views here.
-# def welcome(request):
-#     return render(request, 'welcome.html')
 
 def news_today(request):
     date = dt.date.today()
@@ -36,7 +34,7 @@ def news_today(request):
     news = Article.todays_news()
 
     if request.method == 'POST':
-        form = NewsLetterForm(request.POST)
+        forms = NewsLetterForm(request.POST)
         if form.is_valid():
             # print('valid')
             name = form.cleaned_data['your_name']
@@ -50,7 +48,7 @@ def news_today(request):
                
     return render(request,'all-news/today-news.html', {"date":date,"news":news, "letterForm":form}) 
 
-
+@login_required(login_url='/accounts/login/')
 def article(request,article_id):
     try:
         article = Article.objects.get(id= article_id)

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'news.apps.NewsConfig',
     'bootstrap3',
+    'registration',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
