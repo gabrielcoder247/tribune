@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'news.apps.NewsConfig',
     'bootstrap3',
     'registration',
+    'tinymce',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

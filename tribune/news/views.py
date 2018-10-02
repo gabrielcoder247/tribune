@@ -34,13 +34,15 @@ def news_today(request):
     news = Article.todays_news()
 
     if request.method == 'POST':
-        forms = NewsLetterForm(request.POST)
+        form = NewsLetterForm(request.POST)
         if form.is_valid():
             # print('valid')
             name = form.cleaned_data['your_name']
             email = form.cleaned_data['email']
+
             recipient = NewsLetterRecipients(name=name, email=email)
             recipient.save()
+            
             send_welcome_email(name,email)
             HttpResponseRedirect('news_today')
         else:
