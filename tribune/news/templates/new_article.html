@@ -1,4 +1,5 @@
-{% load bootstrap3 %} {% load staticfiles %}
+{% load bootstrap3 %} 
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 
@@ -9,8 +10,10 @@
   <title>New Article</title>
   {{form.media}}
 
-{% block styles %} {% bootstrap_css %}
-  <link rel="stylesheet" href="{% static 'css/news.css' %}"> {% endblock %}
+{% block styles %} 
+{% bootstrap_css %}
+  <link rel="stylesheet" href="{% static 'css/news.css' %}"> 
+  {% endblock %}
 
 </head>
 

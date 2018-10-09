@@ -1,9 +1,9 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, Http404,HttpResponseRedirect
-from .forms import NewsLetterForm,NewLetterForm
+from .forms import NewsLetterForm,NewArticleForm
 from django.contrib.auth.decorators import login_required
 from .email import send_welcome_email
-from .models import Article
+from .models import Article,NewsLetterRecipients
 import datetime as dt
 
 
@@ -45,8 +45,8 @@ def news_today(request):
             
             send_welcome_email(name,email)
             HttpResponseRedirect('news_today')
-        else:
-            form = NewsLetterForm()
+    else:
+        form = NewsLetterForm()
                
     return render(request,'all-news/today-news.html', {"date":date,"news":news, "letterForm":form}) 
 
