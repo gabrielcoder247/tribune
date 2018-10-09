@@ -9,9 +9,11 @@ import datetime as dt
 
 
 
-def news_today(request):
-    date = dt.date.today()
-    return render(request, 'all-news/today-news.html',{'date': date})
+# def news_today(request):
+#     date = dt.date.today()
+#     news = Article.todays_news()
+    
+#     return render(request, 'all-news/today-news.html',{'date': date, "news":news, "letterForm":form})
 
 
 
@@ -33,6 +35,7 @@ def past_days_news(request,past_date):
 def news_today(request):
     date = dt.date.today()
     news = Article.todays_news()
+    form = NewsLetterForm()
 
     if request.method == 'POST':
         form = NewsLetterForm(request.POST)
@@ -89,5 +92,13 @@ def search_results(request):
 
         message = "You haven't searched for any term"
         return render(request, 'all-news/search.html', {"message":message})
-        
+def newsletter(request):
+    name = request.POST.get('your_name')
+    email = request.POST.get('email')
+
+    recipient = NewsLetterRecipients(name= name, email= email)
+    recipient.save()
+    send_welcome_email(name,email)
+    data = {'success':'You have been successfully added to mailing list '}
+    return JsonResponse(data)         
 
