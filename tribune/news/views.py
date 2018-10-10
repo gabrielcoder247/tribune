@@ -100,5 +100,19 @@ def newsletter(request):
     recipient.save()
     send_welcome_email(name,email)
     data = {'success':'You have been successfully added to mailing list '}
-    return JsonResponse(data)         
+    return JsonResponse(data) 
+
+
+from rest_framework import status
+
+class MerchList(APIView):
+
+    def post(self, request, format=None):
+
+        serializers = MerchSerializer(data=request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.errors,status=status.HTTP_201_CREATED)
+         return Response(serializers.errors,status=status.HTTP_400_BAD_REQUEST)
+
 
