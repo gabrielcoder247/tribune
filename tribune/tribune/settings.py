@@ -42,6 +42,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'rest_framework.authtoken',
     'news.apps.NewsConfig',
     'bootstrap3',
     'registration',
@@ -63,6 +64,12 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': 
+        'rest_framework.authentication.TokenAuthentication',
+    
+}
 
 ROOT_URLCONF = 'tribune.urls'
 

@@ -4,6 +4,10 @@ from .forms import NewsLetterForm,NewArticleForm
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from rest_framework import status
+from rest_framework.response import Response
+from .models import MoringaMerch
+from .serializer import MerchSerializer
+from rest_framework.views import APIView
 from .email import send_welcome_email
 from .models import Article,NewsLetterRecipients
 import datetime as dt
@@ -104,16 +108,20 @@ def newsletter(request):
     return JsonResponse(data) 
 
 
-from rest_framework import status
 
 class MerchList(APIView):
+
+    def get(self, request, format=None):
+        all_merch = MoringaMerch.objects.all()
+        serializers = MerchSerializer(all_merch, many=True)
+        return Response(serializers.data)
 
     def post(self, request, format=None):
 
         serializers = MerchSerializer(data=request.data)
         if serializers.is_valid():
             serializers.save()
-            return Response(serializers.errors,status=status.HTTP_201_CREATED)
-         return Response(serializers.errors,status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializers.data,status=status.HTTP_201_CREATED)
+        return Response(serializers.errors,status=status.HTTP_400_BAD_REQUEST)
 
 
