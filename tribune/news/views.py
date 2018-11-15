@@ -134,6 +134,16 @@ class MerchDescription(APIView):
             return MoringaMerch.objects.get(pk=pk)
         except MoringaMerch.DoesNotExist:
             return Http404
+
+    def put(self, request, pk, format=None):
+        merch = self.get_merch(pk)
+        serializers = merchSerializer(merch, request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data)
+        else:
+            return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+
      
 
 
