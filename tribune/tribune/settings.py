@@ -42,18 +42,25 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
-    'rest_framework.authtoken',
     'news.apps.NewsConfig',
     'bootstrap3',
     'registration',
     'tinymce',
     'rest_framework',
+    'rest_framework.authtoken',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -65,11 +72,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': 
-        'rest_framework.authentication.TokenAuthentication',
-    
-}
+
 
 ROOT_URLCONF = 'tribune.urls'
 
@@ -148,3 +151,4 @@ STATICFILES_DIRS = [
 ]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+

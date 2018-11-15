@@ -11,6 +11,7 @@ from rest_framework.views import APIView
 from .email import send_welcome_email
 from .models import Article,NewsLetterRecipients
 import datetime as dt
+from .permissions import IsAdminOrReadOnly
 
 
 
@@ -111,9 +112,9 @@ def newsletter(request):
 
 class MerchList(APIView):
 
-    def get(self, request, format=None):
-        all_merch = MoringaMerch.objects.all()
-        serializers = MerchSerializer(all_merch, many=True)
+    def get(self, request, pk, format=None):
+        merch = self.get_merch(pk)
+        serializers = MerchSerializer(merch)
         return Response(serializers.data)
 
     def post(self, request, format=None):
@@ -123,5 +124,18 @@ class MerchList(APIView):
             serializers.save()
             return Response(serializers.data,status=status.HTTP_201_CREATED)
         return Response(serializers.errors,status=status.HTTP_400_BAD_REQUEST)
+
+        permission_classes= (IsAdminOrReadyOnly,) 
+
+class MerchDescription(APIView):
+    permission_classes = (IsAdminOrReadOnly,)
+    def get_merch(self, pk):
+        try:
+            return MoringaMerch.objects.get(pk=pk)
+        except MoringaMerch.DoesNotExist:
+            return Http404
+     
+
+
 
 
